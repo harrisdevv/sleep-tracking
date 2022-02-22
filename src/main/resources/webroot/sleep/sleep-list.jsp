@@ -34,8 +34,9 @@
 	</header>
 
 	<div class="row">
-		<!-- <div class="alert alert-success" *ngIf='message'>{{message}}</div> -->
-
+		<div class="col-12">
+			<div class="alert alert-success" *ngIf='message'>${message}</div>
+		</div>
 		<div class="container ${is_admin}">
 			<h3 class="text-center">List of User</h3>
 			<hr>
@@ -51,7 +52,6 @@
 					</tr>
 				</thead>
 				<tbody>
-					<!--   for (Sleep sleep: sleeps) {  -->
 					<c:forEach var="user" items="${listUser}">
 						<tr>
 							<td><c:out value="${user.firstName}" /></td>
@@ -60,14 +60,11 @@
 							<td><c:out value="${user.password}" /></td>
 							<td><c:out value="${user.isAdmin}" /></td>
 
-							<td><a href="editUser?id=<c:out value='${user.id}' />">Edit</a>
+							<td><a href="editUser?id=<c:out value='${user.uid}' />">Edit</a>
 								&nbsp;&nbsp;&nbsp;&nbsp; <a
-								href="deleteUser?id=<c:out value='${user.id}' />">Delete</a></td>
-							<td><button (click)="updateUser(user.id)" class="btn btn-success">Update</button>
-          						<button (click)="deleteUser(user.id)" class="btn btn-warning">Delete</button></td> -->
+								href="deleteUser?id=<c:out value='${user.uid}' />">Delete</a></td>
 						</tr>
 					</c:forEach>
-					<!-- } -->
 				</tbody>
 
 			</table>
@@ -102,8 +99,6 @@
 							<td><a href="edit?id=<c:out value='${sleep.id}' />">Edit</a>
 								&nbsp;&nbsp;&nbsp;&nbsp; <a
 								href="delete?id=<c:out value='${sleep.id}' />">Delete</a></td>
-							<td><button (click)="updateSleep(sleep.id)" class="btn btn-success">Update</button>
-          						<button (click)="deleteSleep(sleep.id)" class="btn btn-warning">Delete</button></td> -->
 						</tr>
 					</c:forEach>
 					<!-- } -->

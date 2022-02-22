@@ -7,7 +7,7 @@ import com.app.model.SleepEntry;
 
 public interface SleepEntryDao {
 
-	void insert(SleepEntry sleepEntry) throws SQLException;
+	void insert(SleepEntry sleepEntry, long uid) throws SQLException;
 
 	SleepEntry select(long sleepEntryId);
 

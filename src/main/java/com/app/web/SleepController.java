@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -11,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.app.dao.SleepEntryDao;
 import com.app.dao.SleepEntryDaoImpl;
@@ -25,6 +27,7 @@ public class SleepController extends HttpServlet {
 
 	public void init() {
 		sleepDAO = new SleepEntryDaoImpl();
+		userDao = new UserDao();
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -35,6 +38,13 @@ public class SleepController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String action = request.getServletPath();
+
+		HttpSession session = request.getSession();
+		if (session.getAttribute("username") == null || session.getAttribute("username").toString() == "") {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("login/login.jsp");
+			dispatcher.forward(request, response);
+			return;
+		}
 
 		try {
 			switch (action) {
@@ -61,6 +71,8 @@ public class SleepController extends HttpServlet {
 				dispatcher.forward(request, response);
 				break;
 			}
+			RequestDispatcher dispatcher = request.getRequestDispatcher("list");
+			dispatcher.forward(request, response);
 		} catch (SQLException ex) {
 			throw new ServletException(ex);
 		}
@@ -70,7 +82,9 @@ public class SleepController extends HttpServlet {
 			throws SQLException, IOException, ServletException {
 		List<User> users = userDao.selectAllUsers();
 		request.setAttribute("listUser", users);
-
+		HttpSession session = request.getSession();
+		boolean isAdmin = (boolean) session.getAttribute("isAdmin");
+		request.setAttribute("is_admin", (isAdmin ? "":"d-none"));
 		List<SleepEntry> listSleep = sleepDAO.selectAllSleepEntries();
 		request.setAttribute("listSleep", listSleep);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("sleep/sleep-list.jsp");
@@ -94,20 +108,26 @@ public class SleepController extends HttpServlet {
 	}
 
 	private void insertSleep(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-		String date = request.getParameter("date");
-		//String sleeptime = Time.valueOf(request.getTime("sleeptime"));
-		String wakeuptime = request.getParameter("wakeuptime");
-		//Int sleepDuration = request.getParameter("sleepdur");
-		/*DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-mm-dd");
-		LocalDate targetDate = LocalDate.parse(request.getParameter("targetDate"),df);*/
-		boolean isDone = Boolean.valueOf(request.getParameter("isDone"));
-		//sleepDAO.insert(newSleep);
+		LocalDate date = LocalDate.parse(request.getParameter("date"));
+		Time sleepTime = Time.valueOf(request.getParameter("sleep_time"));
+		Time wakeUpTime = Time.valueOf(request.getParameter("wakeup_time"));
+		int sleepDuration = Integer.parseInt(request.getParameter("total_sleep_duration"));
+		SleepEntry newSleep = new SleepEntry(date, sleepTime, wakeUpTime, sleepDuration);
+		sleepDAO.insert(newSleep, Long.parseLong(String.valueOf(request.getSession().getAttribute("uid"))));
 		response.sendRedirect("list");
 	}
 
 	private void updateSleep(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+		LocalDate date = LocalDate.parse(request.getParameter("date"));
+		Time sleepTime = Time.valueOf(request.getParameter("sleep_time"));
+		Time wakeUpTime = Time.valueOf(request.getParameter("wakeup_time"));
+		int sleepDuration = Integer.parseInt(request.getParameter("total_sleep_duration"));
+		SleepEntry newSleep = new SleepEntry(date, sleepTime, wakeUpTime, sleepDuration);
+		sleepDAO.updateSleepEntry(newSleep);
 	}
 
 	private void deleteSleep(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+		int sleepId = Integer.parseInt(request.getParameter("id"));
+		sleepDAO.deleteSleepEntry(sleepId);
 	}
 }

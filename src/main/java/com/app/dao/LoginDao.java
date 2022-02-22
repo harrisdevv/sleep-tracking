@@ -14,14 +14,16 @@ public class LoginDao {
 		Class.forName("com.mysql.jdbc.Driver");
 		try (Connection connection = JDBCConnection.getConnection();
 				PreparedStatement preparedStatement = connection
-						.prepareStatement("select * from users where username = ? and password = ? ")) {
+						.prepareStatement("select id, is_admin from users where username = ? and password = ? ")) {
 			preparedStatement.setString(1, loginBean.getUsername());
 			preparedStatement.setString(2, loginBean.getPassword());
-
 			System.out.println(preparedStatement);
 			ResultSet rs = preparedStatement.executeQuery();
 			status = rs.next();
-
+			long uid = rs.getLong("id");
+			boolean isAdmin = rs.getBoolean("is_admin");
+			loginBean.setAdmin(isAdmin);
+			loginBean.setUid(uid);
 		} catch (SQLException e) {
 			JDBCConnection.printSQLException(e);
 		}

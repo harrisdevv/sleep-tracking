@@ -58,29 +58,27 @@
 				</c:if>
 
 				<fieldset class="form-group">
-					<label>Sleep Title</label> <input type="text"
-						value="<c:out value='${sleep.title}' />" class="form-control"
-						name="title" required="required" minlength="5">
+					<label>Date</label> <input type="date"
+						value="<c:out value='${sleep.date}' />" class="form-control"
+						name="date" required="required">
 				</fieldset>
 
 				<fieldset class="form-group">
-					<label>Sleep Decription</label> <input type="text"
-						value="<c:out value='${sleep.description}' />" class="form-control"
-						name="description" minlength="5">
+					<label>Sleep time (00:00:00)</label> <input type="text"
+						value="<c:out value='${sleep.sleepTime}' />" class="form-control"
+						name="sleep_time" required="required" minlength="5">
 				</fieldset>
 
 				<fieldset class="form-group">
-					<label>Sleep Status</label> <select class="form-control"
-						name="isDone">
-						<option value="false">In Progress</option>
-						<option value="true">Complete</option>
-					</select>
+					<label>Wakeup time (00:00:00)</label> <input type="text"
+						value="<c:out value='${sleep.wakeUpTime}' />" class="form-control"
+						name="wakeup_time" required="required" minlength="5">
 				</fieldset>
-
+				
 				<fieldset class="form-group">
-					<label>Sleep Target Date</label> <input type="date"
-						value="<c:out value='${sleep.targetDate}' />" class="form-control"
-						name="targetDate" required="required">
+					<label>Sleep duration</label> <input type="text"
+						value="<c:out value='${sleep.sleepDuration}' />" class="form-control"
+						name="total_sleep_duration" required="required" minlength="1">
 				</fieldset>
 
 				<button type="submit" class="btn btn-success">Save</button>

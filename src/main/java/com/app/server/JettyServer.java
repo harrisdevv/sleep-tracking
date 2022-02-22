@@ -11,14 +11,13 @@ class JettyServer {
     private Server server;
 
     void start() throws Exception {
-        QueuedThreadPool threadPool = new QueuedThreadPool(80,10,100);
+        QueuedThreadPool threadPool = new QueuedThreadPool(10,3,12);
         server = new Server(threadPool);
         ServerConnector connector = new ServerConnector(server);
         connector.setPort(9000);
         server.setConnectors(new Connector[] { connector });
         ServletHandler servletHandler = new ServletHandler();
         server.setHandler(servletHandler);
-        //servletHandler.addServletWithMapping(TestServlet.class, "/index");
         server.start();
     }
 

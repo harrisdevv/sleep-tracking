@@ -12,6 +12,7 @@ public class User implements Serializable {
 	private boolean isAdmin;
 	public User() {}
 
+
 	public User(long uid, String firstName, String lastName, String username, String password, boolean isAdmin) {
 		this.setUid(uid);
 		this.firstName = firstName;
@@ -57,10 +58,22 @@ public class User implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public boolean isAdmin() {
+	public boolean isIsAdmin() {
 		return isAdmin;
 	}
 	public void setAdmin(boolean isAdmin) {
 		this.isAdmin = isAdmin;
+	}
+
+	@Override
+	public String toString() {
+		return "{" +
+			" uid='" + getUid() + "'" +
+			", firstName='" + getFirstName() + "'" +
+			", lastName='" + getLastName() + "'" +
+			", username='" + getUsername() + "'" +
+			", password='" + getPassword() + "'" +
+			", isAdmin='" + isIsAdmin() + "'" +
+			"}";
 	}
 }

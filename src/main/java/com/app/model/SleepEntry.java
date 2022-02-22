@@ -20,6 +20,13 @@ public class SleepEntry {
 		this.sleepDuration = sleepDuration;
 	}
 
+	public SleepEntry(LocalDate date, Time sleepTime, Time wakeUpTime, int sleepDuration) {
+		this.date = date;
+		this.sleepTime = sleepTime;
+		this.wakeUpTime = wakeUpTime;
+		this.sleepDuration = sleepDuration;
+	}
+
 	public Long getId() {
 		return this.id;
 	}

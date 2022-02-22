@@ -27,7 +27,7 @@ public class UserDao {
 			preparedStatement.setString(2, user.getLastName());
 			preparedStatement.setString(3, user.getUsername());
 			preparedStatement.setString(4, user.getPassword());
-			preparedStatement.setBoolean(5, user.isAdmin());
+			preparedStatement.setBoolean(5, user.isIsAdmin());
 			result = preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			JDBCConnection.printSQLException(e);
@@ -61,7 +61,7 @@ public class UserDao {
 		List<User> users = new ArrayList<>();
 		try (Connection connection = JDBCConnection.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_USERS);) {
-			System.out.println(preparedStatement);
+			System.err.println(preparedStatement);
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
 				long id = rs.getLong("id");
@@ -71,7 +71,9 @@ public class UserDao {
 				String password = rs.getString("password");
 				boolean isAdmin = rs.getBoolean("is_admin");
 				User user = new User(id, firstName, lastName, username, password, isAdmin);
+				System.err.println(user);
 				users.add(user);
+
 			}
 		} catch (SQLException exception) {
 			JDBCConnection.printSQLException(exception);

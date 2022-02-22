@@ -39,12 +39,13 @@ public class LoginController extends HttpServlet {
 
 		try {
 			if (loginDao.validate(loginBean)) {
-				RequestDispatcher dispatcher = request.getRequestDispatcher("sleep/sleep-list.jsp");
-				dispatcher.forward(request, response);
-			} else {
 				HttpSession session = request.getSession();
-				// session.setAttribute("user", username);
-				// response.sendRedirect("login.jsp");
+				session.setAttribute("username", username);
+				session.setAttribute("isAdmin", loginBean.isAdmin());
+				session.setAttribute("uid", loginBean.getUid());
+				response.sendRedirect("list");
+			} else {
+				response.sendRedirect("login.jsp");
 			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

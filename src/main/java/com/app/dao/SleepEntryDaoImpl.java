@@ -25,7 +25,7 @@ public class SleepEntryDaoImpl implements SleepEntryDao {
 	}
 
 	@Override
-	public void insert(SleepEntry sleep) throws SQLException {
+	public void insert(SleepEntry sleep, long uid) throws SQLException {
 		System.out.println(INSERT_SLEEPS_QUERY);
 		try (Connection connection = JDBCConnection.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(INSERT_SLEEPS_QUERY)) {
@@ -33,6 +33,7 @@ public class SleepEntryDaoImpl implements SleepEntryDao {
 			preparedStatement.setTime(3, sleep.getSleepTime());
 			preparedStatement.setTime(2, sleep.getWakeUpTime());
 			preparedStatement.setInt(4, sleep.getSleepDuration());
+			preparedStatement.setLong(5, uid);
 			preparedStatement.executeUpdate();
 		} catch (SQLException exception) {
 			JDBCConnection.printSQLException(exception);
