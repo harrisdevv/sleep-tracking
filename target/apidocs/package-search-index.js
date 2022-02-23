@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"com.app.dao"},{"l":"com.app.model"},{"l":"com.app.server"},{"l":"com.app.utils"},{"l":"com.app.web"},{"l":"org.eclipse.jetty.demo"}]

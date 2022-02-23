@@ -66,16 +66,26 @@ public class SleepController extends HttpServlet {
 			case "/list":
 				listSleep(request, response);
 				break;
+			case "/logout":
+				logout(request, response);
+				break;
 			default:
 				RequestDispatcher dispatcher = request.getRequestDispatcher("login/login.jsp");
 				dispatcher.forward(request, response);
-				break;
+				return;
 			}
 			RequestDispatcher dispatcher = request.getRequestDispatcher("list");
 			dispatcher.forward(request, response);
 		} catch (SQLException ex) {
 			throw new ServletException(ex);
 		}
+	}
+
+	private void logout(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		session.setAttribute("username", null);
+		session.setAttribute("isAdmin", null);
+		session.setAttribute("uid", null);
 	}
 
 	private void listSleep(HttpServletRequest request, HttpServletResponse response)
